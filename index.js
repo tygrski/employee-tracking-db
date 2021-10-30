@@ -36,8 +36,8 @@ function startDatabase () {
 async function viewAllDepartments() {
 db.query('SELECT * FROM departments', (err, res ) =>{
    if(err) {
-     res.status(400)
-     console.table("error")
+    //  res.status(400)
+    //  console.table("error")
    }
   console.table(res);
 })
