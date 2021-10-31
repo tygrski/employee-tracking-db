@@ -1,17 +1,22 @@
-INSERT INTO Department(id, name, description)
-  VALUES
-  (1, finance, company finances),
-  (2, marketing, company marketing),
-  (3,  management, company management)
+INSERT INTO department (department_name)
+VALUES
+  ('Finance'),
+  ('Marketing'),
+  ('Management'),
+  
+INSERT INTO roles (title, salary, department_id)
+VALUES
+  ('CFO', 200,000.00, 1),
+  ('Accounting', 120,000.00, 1),
+  ('Marketing Sales', 100,000.00, 2),
+  ('Genereal Manager', 110,000.00, 3),
 
-  INSERT INTO Role(id, title, salary)
-    VALUES
-    (1, CFO, 160,000),
-    (2, Marketing Manager, 120,000),
-    (3, Manager, 150,000)
 
-  INSERT INTO Employee(id, first_name, last_name)
-  VALUES
-  (1, Cherry, Hills),
-  (2, Amber, Frost),
-  (3, Crystal, Lands)
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES
+  ('Cherry', 'Hills',2,3),
+  ('Amber', 'Frost',1,1),
+  ('Wendy', 'Thomas',2, 2 )
+  ('Crystal', 'Lands',3,2),
+ 

@@ -33,14 +33,55 @@ function startDatabase () {
 }
 
 // view all departments, add .then solution.. Make asynchronous
-async function viewAllDepartments() {
-db.query('SELECT * FROM departments', (err, res ) =>{
-   if(err) {
-    //  res.status(400)
-    //  console.table("error")
-   }
-  console.table(res);
-})
+// async function viewAllDepartments() {
+// db.query('SELECT * FROM departments', (err, res ) =>{
+//    if(err) {
+//     //  res.status(400)
+//     //  console.table("error")
+//    }
+//   console.table(res);
+// })
+// }
+
+
+viewAllDepartments = () => {
+//  
+const sql = `SELECT * FROM department`
+db.query(sql, (err, res) => {
+  // console.log(res)
+  if(err){
+    console.log(err)
+  }console.log(cTable.getTable(res));
+  })
 }
+
+
+viewEmployeesByManagerId = () => {
+  inquirer.prompt([{
+    type: "input",
+    name: "manager_id",
+    message: "Enter the employee manager id"
+  }]).then(answeres => {
+    // This is your validation
+    if(answeres.manager_id === 0 || answeres.manager_id === ""){
+      console.log(`Please enter a valid manager id`);
+      return this.viewEmployeesByManagerId();
+    }
+    //Validation END
+
+    //Send sql query
+    const sql = `SELECT * FROM employee WHERE manager_id = ?`
+    //Create connection
+    db.query(sql, [answeres.manager_id], (err, data) => {
+      //Handle errors
+      if(err) throw err
+      //Return data
+      console.log(cTable.getTable(data));
+
+    })
+  })
+}
+
+
 
 startDatabase();
