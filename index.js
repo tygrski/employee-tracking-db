@@ -32,6 +32,8 @@ function startDatabase () {
   } 
 });
 }
+// End questions=============================================================================
+
 
 // All departments =================================================================================
 viewAllDepartments = () => {  
@@ -41,52 +43,71 @@ db.query(sql, (err, res) => {
   if(err){
     console.log(err)
   }console.log(cTable.getTable(res));
-  })
+  });
   startDatabase();
 }
 
 // All Roles ===============================================================================
 viewAllRoles = () => {
-  const sql = `SELECT * FROM roles, department.department_name
-              RIGHT JOIN  roles
-              ON roles.department_id = department.department_name;
+  const sql = `SELECT roles.id, department.department_name, roles.title, roles.salary FROM department
+              LEFT JOIN  roles
+              ON roles.department_id = department.id;
   `
   db.query(sql, (err, res) => {
     // console.log(res)
     if(err){
       console.log(err)
     }console.log(cTable.getTable(res));
-    })
-   
-    
-  }
-
-//All  =============================================================================
-viewEmployeesByManagerId = () => {
-  inquirer.prompt([{
-    type: "input",
-    name: "manager_id",
-    message: "Enter the employee manager id"
-  }]).then(answeres => {
-    // This is your validation
-    if(answeres.manager_id === 0 || answeres.manager_id === ""){
-      console.log(`Please enter a valid manager id`);
-      return this.viewEmployeesByManagerId();
-    }
-    //Validation END
-
-    //Send sql query
-    const sql = `SELECT * FROM employee WHERE manager_id = ?`
-    //Create connection
-    db.query(sql, [answeres.manager_id], (err, data) => {
-      //Handle errors
-      if(err) throw err
-      //Return data
-      console.log(cTable.getTable(data));
-
-    })
-  })
+    });
+    startDatabase()
 }
+
+// All Employees=============================================================================
+viewAllEmployees = () => {
+  const sql = `SELECT   roles.title, roles.department_id, roles.salary FROM employee   
+              LEFT JOIN roles  
+              ON employee.role_id  = roles.id
+              LEFT JOIN department
+              ON  department.id = roles.department_id 
+              
+  `
+  db.query(sql, (err, res) => {
+    // console.log(res)
+    if(err){
+      console.log(err)
+    }console.log(cTable.getTable(res));
+    });
+    startDatabase()
+}
+
+
+
+// //All  ======================================================================================
+// viewEmployeesByManagerId = () => {
+//   inquirer.prompt([{
+//     type: "input",
+//     name: "manager_id",
+//     message: "Enter the employee manager id"
+//   }]).then(answeres => {
+//     // This is your validation
+//     if(answeres.manager_id === 0 || answeres.manager_id === ""){
+//       console.log(`Please enter a valid manager id`);
+//       return this.viewEmployeesByManagerId();
+//     }
+//     //Validation END
+
+//     //Send sql query
+//     const sql = `SELECT * FROM employee WHERE manager_id = ?`
+//     //Create connection
+//     db.query(sql, [answeres.manager_id], (err, data) => {
+//       //Handle errors
+//       if(err) throw err
+//       //Return data
+//       console.log(cTable.getTable(data));
+
+//     })
+//   })
+// }
 
 
 
