@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const db = require('./db/connections');
 const cTable = require('console.table');
 
+// Start questions==================================================================
 function startDatabase () {
   inquirer
   .prompt({
@@ -32,20 +33,8 @@ function startDatabase () {
 });
 }
 
-// view all departments, add .then solution.. Make asynchronous
-// async function viewAllDepartments() {
-// db.query('SELECT * FROM departments', (err, res ) =>{
-//    if(err) {
-//     //  res.status(400)
-//     //  console.table("error")
-//    }
-//   console.table(res);
-// })
-// }
-
-
-viewAllDepartments = () => {
-//  
+// All departments =================================================================================
+viewAllDepartments = () => {  
 const sql = `SELECT * FROM department`
 db.query(sql, (err, res) => {
   // console.log(res)
@@ -53,9 +42,25 @@ db.query(sql, (err, res) => {
     console.log(err)
   }console.log(cTable.getTable(res));
   })
+  startDatabase();
 }
 
+// All Roles ===============================================================================
+viewAllRoles = () => {
+  const sql = `SELECT * FROM roles, department.department_name
+              RIGHT JOIN  roles
+              ON roles.department_id = department.department_id;
+  `
+  db.query(sql, (err, res) => {
+    // console.log(res)
+    if(err){
+      console.log(err)
+    }console.log(cTable.getTable(res));
+    })
+    startDatabase();
+  }
 
+//All  =============================================================================
 viewEmployeesByManagerId = () => {
   inquirer.prompt([{
     type: "input",
