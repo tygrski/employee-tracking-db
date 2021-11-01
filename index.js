@@ -49,7 +49,7 @@ db.query(sql, (err, res) => {
 viewAllRoles = () => {
   const sql = `SELECT * FROM roles, department.department_name
               RIGHT JOIN  roles
-              ON roles.department_id = department.department_id;
+              ON roles.department_id = department.department_name;
   `
   db.query(sql, (err, res) => {
     // console.log(res)
@@ -57,7 +57,8 @@ viewAllRoles = () => {
       console.log(err)
     }console.log(cTable.getTable(res));
     })
-    startDatabase();
+   
+    
   }
 
 //All  =============================================================================
