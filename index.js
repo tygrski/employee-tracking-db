@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const db = require('./db/connections');
 const cTable = require('console.table');
 
-// Start questions==================================================================
+// -Start questions===================================================================================
 function startDatabase () {
   inquirer
   .prompt({
@@ -29,13 +29,12 @@ function startDatabase () {
     case 'update an employee role': updateEmployee();
     break;
     default: console.log('Select a valid option !')
-  } 
-});
+    } 
+  });
 }
-// End questions=============================================================================
 
-
-// All departments =================================================================================
+// Begin Query functions ===========================================================================
+// All departments 
 viewAllDepartments = () => {  
 const sql = `SELECT * FROM department`
 db.query(sql, (err, res) => {
@@ -47,7 +46,7 @@ db.query(sql, (err, res) => {
   startDatabase();
 }
 
-// All Roles ===============================================================================
+// All Roles --------------------------------------------------------------------------------------
 viewAllRoles = () => {
   const sql = `SELECT roles.id, department.department_name, roles.title, roles.salary FROM department
               LEFT JOIN  roles
@@ -62,7 +61,7 @@ viewAllRoles = () => {
     startDatabase()
 }
 
-// All Employees=============================================================================
+// All Employees -----------------------------------------------------------------------------------
 viewAllEmployees = () => {
   const sql = `SELECT   roles.title, roles.department_id, roles.salary FROM employee   
               LEFT JOIN roles  
@@ -82,7 +81,7 @@ viewAllEmployees = () => {
 
 
 
-// //All  ======================================================================================
+//  by view by Manager ID ---------------------------------------------------------------------------
 // viewEmployeesByManagerId = () => {
 //   inquirer.prompt([{
 //     type: "input",
@@ -111,4 +110,5 @@ viewAllEmployees = () => {
 
 
 
+// Initiate Application =========================================================================
 startDatabase();
