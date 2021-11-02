@@ -1,1 +1,9 @@
-## Employe Tracking Dataase
+# Employe Tracking Dataase
+
+### Start App in terminal with "NPM start"
+
+## View Departments, Roles, Employees, MAnager Info and Update
+
+## Made with mySQL , Node and JavaScripit
+
+### Created by Travis Tybor
