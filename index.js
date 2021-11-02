@@ -20,7 +20,7 @@ function startDatabase () {
     break;
     case 'view all employees': viewAllEmployees();
     break;
-    case 'add a departments': addDepartment();
+    case 'add a department': addDepartment();
     break;  
     case 'add a roles': addRole();
     break;  
@@ -63,7 +63,12 @@ viewAllRoles = () => {
 
 // All Employees -----------------------------------------------------------------------------------
 viewAllEmployees = () => {
-  const sql = `SELECT   roles.title, roles.department_id, roles.salary FROM employee   
+  const sql = `SELECT employee.id, employee.first_name, employee.last_name,
+              department.department_name as department,
+              roles.salary, roles.title,
+              manager.last_name as manager
+              FROM employee
+              LEFT JOIN employee manager on manager.id = employee.manager_id
               LEFT JOIN roles  
               ON employee.role_id  = roles.id
               LEFT JOIN department
@@ -79,6 +84,54 @@ viewAllEmployees = () => {
     startDatabase()
 }
 
+// add department
+addDepartment = () => {  
+  inquirer.prompt({
+    type: "input",
+    message: "what departments do you want to add ?",
+    name: "new_department"
+  }).then (deptdata => {
+
+  db.query(  `INSERT INTO department (department_name)
+              VALUES (?)`,deptdata.new_department,
+               (err, res) => {
+    // console.log(res)
+    if(err){
+      console.log(err)
+    }console.log(cTable.getTable(res));
+    });
+    startDatabase();
+    }
+  )}
+
+
+  
+// add role
+addDepartment = () => {  
+  inquirer.prompt({
+    type: "input",
+    message: " What role would you like to add ?",
+    name: "new_role"
+  }).then (deptdata => {
+
+  db.query(  `INSERT INTO roles (role_name)
+              VALUES (?)`,deptdata.new_role,
+               (err, res) => {
+    // console.log(res)
+    if(err){
+      console.log(err)
+    }console.log(cTable.getTable(res));
+    });
+    startDatabase();
+    }
+  )}
+
+  // add employee
+
+// update employee role 
+// UPDATE table_name
+// SET column1 = value1, column2 = value2, ...
+// WHERE condition;)
 
 
 //  by view by Manager ID ---------------------------------------------------------------------------
