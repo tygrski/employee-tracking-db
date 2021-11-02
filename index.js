@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const db = require('./db/connections');
 const cTable = require('console.table');
 
-// -Start questions===================================================================================
+// -Start questions============================================================================================
 function startDatabase () {
   inquirer
   .prompt({
@@ -22,7 +22,7 @@ function startDatabase () {
     break;
     case 'add a department': addDepartment();
     break;  
-    case 'add a roles': addRole();
+    case 'add a role': addRole();
     break;  
     case 'add an employee': addEmployee();
     break;
@@ -32,8 +32,10 @@ function startDatabase () {
     } 
   });
 }
+//  End Questions
 
-// Begin Query functions ===========================================================================
+// Begin Query functions ===================================================================================
+
 // All departments 
 viewAllDepartments = () => {  
 const sql = `SELECT * FROM department`
@@ -46,7 +48,7 @@ db.query(sql, (err, res) => {
   startDatabase();
 }
 
-// All Roles --------------------------------------------------------------------------------------
+// All Roles ----------------------------------------------------------------------------------------------
 viewAllRoles = () => {
   const sql = `SELECT roles.id, department.department_name, roles.title, roles.salary FROM department
               LEFT JOIN  roles
@@ -61,7 +63,7 @@ viewAllRoles = () => {
     startDatabase()
 }
 
-// All Employees -----------------------------------------------------------------------------------
+// All Employees --------------------------------------------------------------------------------------
 viewAllEmployees = () => {
   const sql = `SELECT employee.id, employee.first_name, employee.last_name,
               department.department_name as department,
@@ -84,7 +86,7 @@ viewAllEmployees = () => {
     startDatabase()
 }
 
-// add department
+// add department ---------------------------------------------------------------------------------
 addDepartment = () => {  
   inquirer.prompt({
     type: "input",
@@ -106,15 +108,15 @@ addDepartment = () => {
 
 
   
-// add role
-addDepartment = () => {  
+// add role ---------------------------------------------------------------------------------
+addRole = () => {  
   inquirer.prompt({
     type: "input",
-    message: " What role would you like to add ?",
+    message: "  Enter the role name title, salary, and department id number ",
     name: "new_role"
   }).then (deptdata => {
 
-  db.query(  `INSERT INTO roles (role_name)
+  db.query(  `INSERT INTO roles (title, salary, department_id)
               VALUES (?)`,deptdata.new_role,
                (err, res) => {
     // console.log(res)
@@ -127,6 +129,25 @@ addDepartment = () => {
   )}
 
   // add employee
+  addEmployee = () => {  
+    inquirer.prompt({
+      type: "input",
+      message: "  Enter the employee first name, last name, role id and manger id ",
+      name: "new_employee"
+    }).then (deptdata => {
+  
+    db.query(  `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                VALUES (?)`,deptdata.new_employee,
+                 (err, res) => {
+      // console.log(res)
+      if(err){
+        console.log(err)
+      }console.log(cTable.getTable(res));
+      });
+      startDatabase();
+      }
+    )}
+
 
 // update employee role 
 // UPDATE table_name
