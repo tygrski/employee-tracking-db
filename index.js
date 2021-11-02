@@ -129,17 +129,21 @@ addRole = () => {
   )}
 
   // add employee
+  // ou will need to collect this new values from inquirer and
+  //  then you could say [value1,value2,value3,value4] then you use that array
+// 1:42
+// IMPORTANT: you numbers need to be numbers not strings
   addEmployee = () => {  
     inquirer.prompt({
       type: "input",
       message: "  Enter the employee first name, last name, role id and manger id ",
       name: "new_employee"
     }).then (deptdata => {
-  
-    db.query(  `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-                VALUES (?)`,deptdata.new_employee,
+      let data = deptdata.new_employee.split(", ")
+    db.query(  `INSERT INTO employee SET ?
+                VALUES (?)`,data,
                  (err, res) => {
-      // console.log(res)
+      console.log(data)
       if(err){
         console.log(err)
       }console.log(cTable.getTable(res));
@@ -150,7 +154,14 @@ addRole = () => {
 
 
 // update employee role 
-// UPDATE table_name
+ updateEmployee = () => {
+   inquirer.prompt({
+     type: "input",
+     message: "enter the "
+   })
+ }
+
+// / UPDATE table_name
 // SET column1 = value1, column2 = value2, ...
 // WHERE condition;)
 
